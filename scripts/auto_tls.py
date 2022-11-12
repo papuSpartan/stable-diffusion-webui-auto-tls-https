@@ -66,3 +66,6 @@ def trust_cert(cert):
 			return 1
 	ca_bundle.close()
 	infile.close()
+
+
+setup_tls()
