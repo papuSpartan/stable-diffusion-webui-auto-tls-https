@@ -29,7 +29,7 @@ def setup_tls():
 				certipie.create_auto_certificate(
 					filename=cmd_opts.tls_certfile,
 					private_key=privkey,
-					alternative_names=["localhost", "0.0.0.0", "::1"],
+					alternative_names=["0.0.0.0", "::1", "127.0.0.1", "localhost"],
 					organization="AUTOMATIC1111 Web-UI",
 					country='TD',
 					state_or_province="fake state",
