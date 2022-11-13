@@ -17,7 +17,7 @@ def setup_tls():
 		else:
 			print("Running with TLS")
 
-	if cmd_opts.self_sign:
+	if not cmd_opts.self_sign:
 		# if no cert or key then provide a default for the user in order to provide aio functionality
 		if not cmd_opts.tls_certfile and not cmd_opts.tls_keyfile:
 			import certipie
@@ -31,9 +31,7 @@ def setup_tls():
 					private_key=privkey,
 					# it seems like requests prioritizes CN despite CN being deprecated by SAN's?
 					# localhost is already picked as the cert common name by default through constructor
-					#
 					common_name=cmd_opts.server_name if cmd_opts.server_name else "localhost",
-					#alternative_names=["0.0.0.0", "::1", "127.0.0.1"],
 					alternative_names=None,
 					organization="AUTOMATIC1111 Web-UI",
 					country='TD',
