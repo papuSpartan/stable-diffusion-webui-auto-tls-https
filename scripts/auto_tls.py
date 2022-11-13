@@ -29,11 +29,16 @@ def setup_tls():
 				certipie.create_auto_certificate(
 					filename=cmd_opts.tls_certfile,
 					private_key=privkey,
-					alternative_names=["0.0.0.0", "::1", "127.0.0.1", "localhost"],
+					# it seems like requests prioritizes CN despite CN being deprecated by SAN's?
+					# localhost is already picked as the cert common name by default through constructor
+					#
+					common_name=cmd_opts.server_name if cmd_opts.server_name else "localhost",
+					#alternative_names=["0.0.0.0", "::1", "127.0.0.1"],
+					alternative_names=None,
 					organization="AUTOMATIC1111 Web-UI",
 					country='TD',
 					state_or_province="fake state",
-					city="fake city"
+					city="fake city",
 				)
 				print("Generated new key/cert pair")
 			else:
@@ -53,14 +58,24 @@ def trust_cert(cert):
 	with open(cert, 'r') as infile:
 		local_cert = infile.read()
 
-	# print('Adding local certificate to Certifi trust store...')
-	with open(certifi.where(), 'r+') as ca_bundle:
-		# check that we have not already appended the certificate to the certifi trust store/CA bundle
-		if ca_bundle.read().find(local_cert) == -1:
-			# if you don't write this header, appending any more certs to the bundle after the first one breaks things
-			ca_bundle.write("\n#\n#\n#\n# ADDED BY AUTOMATIC1111 WEBUI\n#\n#\n#\n")
-			ca_bundle.write(local_cert)
+	bundle_path = certifi.where()
+	with open(bundle_path, 'r+') as ca_bundle:
+		orig = ca_bundle.read()
 
+		# check that we have not already appended the certificate to the certifi trust store/CA bundle
+		if orig.find(local_cert) == -1:
+			temp_path = bundle_path + ".temp"
+			temp = open(temp_path, 'w')
+
+			# prepend instead of append because the first matching cert takes priority,
+			# and we do not want to collide with any of our previous additions
+			temp.write("\n#\n#\n#\n# ADDED BY AUTOMATIC1111 WEBUI\n#\n#\n#\n")
+			temp.write(local_cert)
+			temp.write(orig)
+
+			temp.close()
+			os.remove(bundle_path)
+			os.rename(temp_path, bundle_path)
 			return -1
 		else:
 			return 1
