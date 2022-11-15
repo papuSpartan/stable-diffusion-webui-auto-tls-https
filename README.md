@@ -35,6 +35,8 @@ Here's how to do that on some common platforms:
 \
 [Linux(Ubuntu)](https://ubuntu.com/server/docs/security-trust-store)
 
+Additionally, firefox users should read https://support.mozilla.org/en-US/kb/setting-certificate-authorities-firefox
+
 
 ## Why?
 
