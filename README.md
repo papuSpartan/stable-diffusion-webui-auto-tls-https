@@ -4,14 +4,18 @@ Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-we
  This extension allows you to easily, or even completely automatically start using HTTPS with SDWUI. [It will help prevent your shrek image generations from being stolen! (see below)]
  
 ### Usecase 1 - Automatic(Default):
-If this extension is enabled, by default, it will generate a key/cert pair and then add it to Python's(certifi) trust store. 
+If this extension is enabled, by default:
+- generate a key/cert pair
+- read the Python trust store from Python certifi
+- create an intermediary bundle made from fusing our cert with the certifi trust store
+- pass bundle to requests using `REQUESTS_CA_BUNDLE`
  
 ### Usecase 2 - Bring your own certificate:
-If passed an existing key/cert pair by using `--tls-certfile` and `--tls-certfile`, the extension will try to add it to the Python(certifi) trust store.
+If passed an existing key/cert pair by using `--tls-certfile` and `--tls-certfile`, the extension will try to do the same as **Usecase 1** but with your specific certificate.
 *note: if you choose this option make sure that your SDWUI server name (--server-name) matches the common name set in the certificate you pass. Otherwise you will likely encounter an exception causing your program to crash.*
 
  
-With both of these methods, by adding this signed certificate to Python's trust store, the webui will be able to run using HTTPS. This is because the certificate will then be seen as valid by your system when the extension passes it to the webui.
+With both of these methods, by passing the certificate to Python requests as being trusted, the webui will be able to run using HTTPS. This is because the certificate will then be seen as valid by the SDWUI processes after the extension passes it to the webui.
 
 ## Installation
 You can install this extension automatically using SDWUI's "Extensions" tab if your installation is up to date.
