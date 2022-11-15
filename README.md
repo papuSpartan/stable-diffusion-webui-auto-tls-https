@@ -4,7 +4,7 @@ Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-we
  This extension allows you to easily, or even completely automatically start using HTTPS with SDWUI. [It will help prevent your shrek image generations from being stolen! (see below)]
  
 ### Usecase 1 - Automatic(Default):
-If this extension is enabled, by default:
+If this extension is enabled it will, by default:
 - generate a key/cert pair
 - read the Python trust store from Python certifi
 - create an intermediary bundle made from fusing our cert with the certifi trust store
