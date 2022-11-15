@@ -24,6 +24,9 @@ See https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Extensions
 
 For security reasoms you may encounter an error in the console upon restart after installing **if** you are running with `--listen` and do not include `--enable-insecure-extension-access`.
 
+### But... I'm still getting certificate errors
+This is normal. This extension is, **right now**, dealing only with Python's certificate trust store. It is **not** interacting with your system level trust store. Operating system specific trust store support may be added later, but if having to give a certificate exception at the browser level is not adequate for you then you could add the `webui.cert` to your OS's trust store which should eliminate those warnings.
+
 
 ## Why?
 
