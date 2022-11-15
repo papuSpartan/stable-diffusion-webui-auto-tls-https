@@ -2,41 +2,33 @@ import os
 import certifi
 from modules.shared import cmd_opts
 
-def trust_cert(cert):
-	"""given path to a certificate, add it to the trust store. Return 1 on success, -1 if already added"""
-	with open(cert, 'r') as infile:
-		local_cert = infile.read()
+wui_keyfile = "./webui.key"
+wui_certfile = "./webui.cert"
+wui_bundle_name = "./webui.bundle"
 
-	bundle_path = certifi.where()
-	with open(bundle_path, 'r+') as ca_bundle:
-		orig = ca_bundle.read()
+def setup_bundle(cert):
+	"""given path to a certificate, pass it to requests as being trusted along with the certifi bundle"""
 
-		# check that we have not already appended the certificate to the certifi trust store/CA bundle
-		if orig.find(local_cert) == -1:
-			temp_path = bundle_path + ".temp"
-			temp = open(temp_path, 'w')
+	cert = open(cert)
+	certifi_bundle = open(certifi.where())
+	wui_bundle = open(wui_bundle_name, "w")
 
-			# prepend instead of append because the first matching cert takes priority,
-			# and we do not want to collide with any of our previous additions
-			temp.write("\n#\n#\n#\n# ADDED BY AUTOMATIC1111 WEBUI\n#\n#\n#\n")
-			temp.write(local_cert)
-			temp.write(orig)
+	# merge user cert with certifi bundle into an intermediary webui bundle
+	wui_bundle.write(certifi_bundle.read())
+	wui_bundle.write(cert.read())
 
-			temp.close()
-			os.remove(bundle_path)
-			os.rename(temp_path, bundle_path)
-			return -1
-		else:
-			return 1
-	ca_bundle.close()
-	infile.close()
+	# cleanup
+	cert.close()
+	certifi_bundle.close()
+	wui_bundle.close()
 
+	os.environ['REQUESTS_CA_BUNDLE'] = wui_bundle_name
 
 
 if not cmd_opts.self_sign:
 	import certipie
-	cmd_opts.tls_keyfile = "./webui.key"
-	cmd_opts.tls_certfile = "./webui.cert"
+	cmd_opts.tls_keyfile = wui_keyfile
+	cmd_opts.tls_certfile = wui_certfile
 
 	if not os.path.exists(cmd_opts.tls_certfile) and not os.path.exists(cmd_opts.tls_keyfile):
 		privkey = certipie.create_private_key(filename=cmd_opts.tls_keyfile)
@@ -66,8 +58,5 @@ else:
 		print("TLS components missing or invalid.")
 		raise e
 
-trusted = trust_cert(cmd_opts.tls_certfile)
-if trusted == 1:
-	print('Certificate was found in trust store ✔️')
-else:
-	print('Certificate trust store updated')
+setup_bundle(cmd_opts.tls_certfile)
+print('Certificate trust store ready')
