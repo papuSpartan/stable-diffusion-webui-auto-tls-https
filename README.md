@@ -1,5 +1,7 @@
 # SDWUI Auto TLS-HTTPS Extension
- This extension allows you to easily, or even completely automatically start using HTTPS while using SDWUI.
+Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/4417
+
+ This extension allows you to easily, or even completely automatically start using HTTPS with SDWUI. [It will help prevent your shrek image generations from being stolen! (see below)]
  
 ### Usecase 1 - Automatic(Default):
 If this extension is enabled, by default, it will generate a key/cert pair and then add it to Python's(certifi) trust store. 
@@ -10,3 +12,34 @@ If passed an existing key/cert pair by using `--tls-certfile` and `--tls-certfil
 
  
 With both of these methods, by adding this signed certificate to Python's trust store, the webui will be able to run using HTTPS. This is because the certificate will then be seen as valid by your system when the extension passes it to the webui.
+
+## Installation
+You can install this extension automatically using SDWUI's "Extensions" tab if your installation is up to date.
+\
+See https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Extensions
+
+For security reasoms you may encounter an error in the console upon restart after installing **if** you are running with `--listen` and do not include `--enable-insecure-extension-access`.
+
+
+## Why?
+
+ Without this extension, SDWUI will simply use unencrypted HTTP. Read [this article by cloudflare](https://www.cloudflare.com/learning/ssl/why-is-http-not-secure/) if you would like to better understand why this is bad. But long story short, If an attacker were to join your local network, they would be able to passively listen to your SDWUI traffic and grab entire images without even having direct access to your SDWUI server.
+ 
+ Here's an example of this using [wireshark](https://www.wireshark.org/):
+ 
+By filtering in Wireshark to connections made to my SDWUI and HTTP protocol, we can easily see the HTTP GET and reponse containing the entire unencrypted image which was generated in SDWUI.
+ 
+ GET Request:
+![image](https://user-images.githubusercontent.com/30642826/201568983-170717f0-8bc9-40f3-890e-0cb6dce21f7d.png)
+
+Unencrypted Response:
+![image](https://user-images.githubusercontent.com/30642826/201569119-15610c55-8890-4627-bedd-b10be3838b67.png)
+
+After receiving the response with the PNG data we can simply:
+1. Select "Portable Network Graphics"
+![image](https://user-images.githubusercontent.com/30642826/201569545-eaf9adac-9346-49e1-8c96-8e711203c8bd.png)
+2. Right click and select export packet bytes
+3. Read the file you saved the bytes to as a PNG
+4. You have now stolen some poor user's shrek image 😢
+
+![image](https://user-images.githubusercontent.com/30642826/201570306-87d62515-0c38-40c3-af84-936b5216c93a.png)
