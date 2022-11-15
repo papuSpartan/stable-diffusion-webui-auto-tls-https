@@ -27,6 +27,14 @@ For security reasoms you may encounter an error in the console upon restart afte
 ### But... I'm still getting certificate errors
 This is normal. This extension is, **right now**, dealing only with Python's certificate trust store. It is **not** interacting with your system level trust store. Operating system specific trust store support may be added later, but if having to give a certificate exception at the browser level is not adequate for you then you could add the `webui.cert` to your OS's trust store which should eliminate those warnings.
 
+Here's how to do that on some common platforms:
+
+[Windows](https://techcommunity.microsoft.com/t5/windows-server-essentials-and/installing-a-self-signed-certificate-as-a-trusted-root-ca-in/ba-p/396105)
+\
+[OSX](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
+\
+[Linux(Ubuntu)](https://ubuntu.com/server/docs/security-trust-store)
+
 
 ## Why?
 
