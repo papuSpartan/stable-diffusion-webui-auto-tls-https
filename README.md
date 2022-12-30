@@ -54,7 +54,7 @@ Additionally, firefox users should read https://support.mozilla.org/en-US/kb/set
  
  Here's an example of this using [wireshark](https://www.wireshark.org/):
  
-By filtering in Wireshark to connections made to my SDWUI and HTTP protocol, we can easily see the HTTP GET and reponse containing the entire unencrypted image which was generated in SDWUI.
+By filtering in Wireshark to connections made to my SDWUI and HTTP protocol, we can easily see the HTTP GET and response containing the entire unencrypted image which was generated in SDWUI.
  
  GET Request:
 ![image](https://user-images.githubusercontent.com/30642826/201568983-170717f0-8bc9-40f3-890e-0cb6dce21f7d.png)
