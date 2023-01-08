@@ -3,7 +3,7 @@ Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-we
 
  This extension allows you to easily, or even completely automatically start using HTTPS with SDWUI. [It will help prevent your shrek image generations from being stolen! (see below)]
  
- *This extension is **not** intended for use with Google **Collab** instances. Consider using ngrok or gradio authentication instead.*
+ *This extension is **not** intended for use with Google **Collab** instances.*
  
  
 ### Usecase 1 - Automatic(Default):
