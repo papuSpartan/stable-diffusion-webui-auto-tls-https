@@ -14,7 +14,7 @@ If this extension is enabled it will, by default:
 - pass bundle to requests using the `REQUESTS_CA_BUNDLE` environment variable
  
 ### Usecase 2 - Bring your own certificate:
-If passed an existing key/cert pair by using `--tls-certfile` and `--tls-certfile`, the extension will try to do the same as **Usecase 1** but with your specific certificate.
+If passed an existing key/cert pair by using `--tls-keyfile` and `--tls-certfile`, the extension will try to do the same as **Usecase 1** but with your specific certificate.
 *note: if you choose this option make sure that your SDWUI server name (--server-name) matches the common name set in the certificate you pass. Otherwise you will likely encounter an exception causing your program to crash.*
 
  
