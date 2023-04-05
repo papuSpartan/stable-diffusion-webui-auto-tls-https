@@ -25,7 +25,7 @@ def setup_bundle(cert):
 	os.environ['REQUESTS_CA_BUNDLE'] = wui_bundle_name
 
 
-if not cmd_opts.self_sign:
+if cmd_opts.self_sign:
 	import certipie
 	cmd_opts.tls_keyfile = wui_keyfile
 	cmd_opts.tls_certfile = wui_certfile
