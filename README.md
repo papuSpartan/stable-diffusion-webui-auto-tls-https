@@ -1,10 +1,13 @@
 # SDWUI Auto TLS-HTTPS Extension
+ **Broken right now for commit 22bcc7b** see [issue](https://github.com/papuSpartan/stable-diffusion-webui-auto-tls-https/issues/11)
+ 
 Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/4417
 
  This extension allows you to easily, or even completely automatically start using HTTPS with SDWUI. [It will help prevent your shrek image generations from being stolen! (see below)]
  
  *This extension is **not** intended for use with Google **Collab** instances.*
  
+
  
 ### Usecase 1 - Automatic(Default):
 If this extension is enabled it will, by default:
