@@ -1,13 +1,9 @@
 # SDWUI Auto TLS-HTTPS Extension
- **Broken right now for commit 22bcc7b** see [issue](https://github.com/papuSpartan/stable-diffusion-webui-auto-tls-https/issues/11)
- 
-Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/4417
-
  This extension allows you to easily, or even completely automatically start using HTTPS with SDWUI. [It will help prevent your shrek image generations from being stolen! (see below)]
  
- *This extension is **not** intended for use with Google **Collab** instances.*
+ Extension implementation of https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/4417
  
-
+ *This extension is **not** intended for use with Google **Collab** instances.*
  
 ### Usecase 1 - Automatic(Default):
 If this extension is enabled it will, by default:
@@ -29,6 +25,8 @@ You can install this extension automatically using SDWUI's "Extensions" tab if y
 See https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Extensions
 
 For security reasons you may encounter an error in the console upon restart after installing **if** you are running with `--listen` and do not include `--enable-insecure-extension-access`.
+
+**If you are using a relatively new version of sdwui, you will want to add `--disable-tls-verify` to your launch options if you are going with usecase 1.**
 
 ### But... I'm still getting certificate errors / I'm getting warnings
 ![warning](https://i0.wp.com/DeployHappiness.com/wp-content/uploads/2019/02/01.png?resize=442%2C230&ssl=1)
@@ -73,3 +71,5 @@ After receiving the response with the PNG data we can simply:
 4. You have now stolen some poor user's shrek image 😢
 
 ![image](https://user-images.githubusercontent.com/30642826/201570306-87d62515-0c38-40c3-af84-936b5216c93a.png)
+
+ [![](https://dcbadge.vercel.app/api/server/Jpc8wnftd4)](https://discord.gg/Jpc8wnftd4)
