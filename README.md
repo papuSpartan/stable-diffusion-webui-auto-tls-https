@@ -33,14 +33,14 @@ For security reasons you may encounter an error in the console upon restart afte
 
 If you are in fact connecting to the link output by the webui console, this is **expected**, do not be alarmed. You have two options, the second is slightly more difficult to setup. 
 
-**A.** You can simply [tell your browser to add an exception](https://support.google.com/chrome/answer/99020?hl=en&co=GENIE.Platform%3DDesktop). (most browsers have similar steps)\
+**A.** You can simply [tell your browser to add an exception](https://support.mozilla.org/en-US/kb/error-codes-secure-websites#w_bypassing-the-warning). (most browsers have similar steps)\
 **B.** You can **properly** configure things so that the browser knows that you trust the sdwui page:
 
 This extension is, **right now**, dealing only with Python's certificate trust store. It is **not** interacting with your system level trust store. Operating system specific trust store support may be added later, but if having to give a certificate exception at the browser level is not adequate for you then you could add the `webui.cert` to your OS's trust store which should eliminate those warnings.
 
 Here's how to do that on some common platforms:
 
-[Windows](https://techcommunity.microsoft.com/t5/windows-server-essentials-and/installing-a-self-signed-certificate-as-a-trusted-root-ca-in/ba-p/396105)
+[Windows](https://www.thewindowsclub.com/manage-trusted-root-certificates-windows)
 \
 [OSX](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
 \
