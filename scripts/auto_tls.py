@@ -13,9 +13,14 @@ def setup_bundle(cert):
 	certifi_bundle = open(certifi.where())
 	wui_bundle = open(wui_bundle_name, "w")
 
-	# merge user cert with certifi bundle into an intermediary webui bundle
+	# merge user cert(s) with certifi bundle into an intermediary webui bundle
 	wui_bundle.write(certifi_bundle.read())
 	wui_bundle.write(cert.read())
+	if cmd_opts.autotls_certs is not None:
+		for c in cmd_opts.autotls_certs:
+			c = open(c)
+			wui_bundle.write(c.read())
+			c.close()
 
 	# cleanup
 	cert.close()
@@ -50,7 +55,7 @@ if not cmd_opts.self_sign:
 else:
 	try:
 		if not os.path.exists(cmd_opts.tls_keyfile):
-			print(f"Invalid path to TLS certfile: '{cmd_opts.tls_keyfile}'")
+			print(f"Invalid path to TLS keyfile: '{cmd_opts.tls_keyfile}'")
 		if not os.path.exists(cmd_opts.tls_certfile):
 			print(f"Invalid path to TLS certfile: '{cmd_opts.tls_certfile}'")
 	except TypeError as e:
@@ -58,5 +63,8 @@ else:
 		print("TLS components missing or invalid.")
 		raise e
 
-setup_bundle(cmd_opts.tls_certfile)
+if cmd_opts.autotls_bundle is not None:
+	os.environ['REQUESTS_CA_BUNDLE'] = cmd_opts.autotls_bundle
+else:
+	setup_bundle(cmd_opts.tls_certfile)
 print('Certificate trust store ready')
