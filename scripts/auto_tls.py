@@ -63,8 +63,13 @@ else:
 		print("TLS components missing or invalid.")
 		raise e
 
+success_msg = 'Certificate trust store ready'
 if cmd_opts.autotls_bundle is not None:
-	os.environ['REQUESTS_CA_BUNDLE'] = cmd_opts.autotls_bundle
+	if not os.path.exists(cmd_opts.autotls_bundle):
+		print(f"could not open bundle file '{cmd_opts.autotls_bundle}'")
+	else:
+		os.environ['REQUESTS_CA_BUNDLE'] = cmd_opts.autotls_bundle
+		print(success_msg)
 else:
 	setup_bundle(cmd_opts.tls_certfile)
-print('Certificate trust store ready')
+	print(success_msg)
